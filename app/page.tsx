@@ -87,7 +87,7 @@ export default function FormularioNovia() {
         <DialogContent className="sm:max-w-[425px]" onPointerDownOutside={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>¡Felicidades! 🎉💖</DialogTitle>
-            <DialogDescription>Has tomado la mejor decisión. ¡Estoy muy feliz de que seas mi novia!</DialogDescription>
+            <DialogDescription>Ahora tu culo será mío!!!! 🤪🤪🤪🤪🤪🤪</DialogDescription>
           </DialogHeader>
           <div className="flex justify-center">
             <img src="1.jpg?height=200&width=200" alt="Celebración" className="rounded-full" />
