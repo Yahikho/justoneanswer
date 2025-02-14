@@ -3,20 +3,33 @@
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useToast } from "@/hooks/use-toast"
 
 export default function FormularioNovia() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [showModal, setShowModal] = useState(false)
   const [hasChosen, setHasChosen] = useState(false)
+  const [shouldShowToast, setShouldShowToast] = useState(false)
   const noButtonRef = useRef<HTMLButtonElement>(null)
+  const { toast } = useToast()
 
   useEffect(() => {
-    const choice = localStorage.getItem("noviaChoice")
-    if (choice === "si") {
+    const choice = localStorage.getItem("choice")
+    if (choice === "yes") {
       setHasChosen(true)
       setShowModal(true)
+      setShouldShowToast(true)
     }
   }, [])
+
+  useEffect(() => {
+    if (shouldShowToast) {
+      toast({
+        description: "Envíale pantallazo del resultado a esa persona que te envió el enlace",
+      })
+      setShouldShowToast(false)
+    }
+  }, [shouldShowToast, toast])
 
   useEffect(() => {
     if (!hasChosen) {
@@ -25,7 +38,7 @@ export default function FormularioNovia() {
           const rect = noButtonRef.current.getBoundingClientRect()
           const distance = Math.sqrt(
             Math.pow(e.clientX - (rect.left + rect.width / 2), 2) +
-              Math.pow(e.clientY - (rect.top + rect.height / 2), 2),
+            Math.pow(e.clientY - (rect.top + rect.height / 2), 2),
           )
 
           if (distance < 100) {
@@ -48,9 +61,12 @@ export default function FormularioNovia() {
   }
 
   const handleSiClick = () => {
+    toast({
+      description: "Envíale pantallazo del resultado a esa persona que te envió el enlace",
+    })
     setShowModal(true)
     setHasChosen(true)
-    localStorage.setItem("noviaChoice", "si")
+    localStorage.setItem("choice", "yes")
   }
 
   return (
@@ -79,22 +95,25 @@ export default function FormularioNovia() {
             >
               No 😢
             </Button>
+            <a href="https://github.com/Yahikho" className="fixed bottom-0 left-0 text-white">by Yahiko</a>
           </div>
         </div>
       )}
 
-      <Dialog open={showModal} onOpenChange={() => {}}>
+      <Dialog open={showModal} onOpenChange={() => { }}>
         <DialogContent className="sm:max-w-[425px]" onPointerDownOutside={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>¡Felicidades! 🎉💖</DialogTitle>
-            <DialogDescription>Ahora tu culo será mío!!!! 🤪🤪🤪🤪🤪🤪</DialogDescription>
+            <DialogDescription>¡¡¡¡ Ahora tu culo será mío !!!! 🤪🤪🤪🤪🤪🤪</DialogDescription>
           </DialogHeader>
           <div className="flex justify-center">
             <img src="1.jpg?height=200&width=200" alt="Celebración" className="rounded-full" />
           </div>
         </DialogContent>
       </Dialog>
+
     </div>
+
   )
 }
 
